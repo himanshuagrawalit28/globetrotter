@@ -1,0 +1,96 @@
+from pydantic import BaseModel, EmailStr
+from datetime import date
+from typing import Optional, List
+
+
+# ---------- Auth ----------
+class UserSignup(BaseModel):
+    name: str
+    email: EmailStr
+    password: str
+
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class UserOut(BaseModel):
+    user_id: int
+    email: str
+    name: str
+    token: str
+
+
+class LoginOut(BaseModel):
+    user_id: int
+    token: str
+
+
+# ---------- Trip ----------
+class TripCreate(BaseModel):
+    name: str
+    start_date: date
+    end_date: date
+    description: Optional[str] = None
+    cover_photo_url: Optional[str] = None
+
+
+class TripOut(BaseModel):
+    id: int
+    name: str
+    start_date: date
+    end_date: date
+    description: Optional[str] = None
+    cover_photo_url: Optional[str] = None
+    user_id: int
+
+    class Config:
+        from_attributes = True
+
+
+# ---------- Stop ----------
+class StopCreate(BaseModel):
+    city_id: int
+    start_date: date
+    end_date: date
+
+
+class StopOut(BaseModel):
+    id: int
+    trip_id: int
+    city_id: int
+    start_date: date
+    end_date: date
+
+    class Config:
+        from_attributes = True
+
+
+# ---------- City ----------
+class CityOut(BaseModel):
+    id: int
+    name: str
+    country: str
+    cost_index: int
+    popularity: int
+
+    class Config:
+        from_attributes = True
+
+
+# ---------- Activity ----------
+class ActivityOut(BaseModel):
+    id: int
+    name: str
+    type: Optional[str] = None
+    cost: float
+    duration_hours: Optional[float] = None
+    description: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class StopActivityCreate(BaseModel):
+    activity_id: int
