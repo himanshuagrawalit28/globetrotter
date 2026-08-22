@@ -24,6 +24,8 @@ class UserOut(BaseModel):
 
 class LoginOut(BaseModel):
     user_id: int
+    name: str
+    email: str
     token: str
 
 
@@ -44,6 +46,10 @@ class TripOut(BaseModel):
     description: Optional[str] = None
     cover_photo_url: Optional[str] = None
     user_id: int
+    stop_count: int = 0
+
+    class Config:
+        from_attributes = True
 
     class Config:
         from_attributes = True

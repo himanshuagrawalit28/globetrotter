@@ -35,7 +35,13 @@ def list_trips(
     current_user: models.User = Depends(get_current_user),
 ):
     trips = db.query(models.Trip).filter(models.Trip.user_id == current_user.id).all()
-    return trips
+    result = []
+    for trip in trips:
+        stop_count = db.query(models.Stop).filter(models.Stop.trip_id == trip.id).count()
+        trip_dict = schemas.TripOut.model_validate(trip).model_dump()
+        trip_dict["stop_count"] = stop_count
+        result.append(trip_dict)
+    return result
 
 
 @router.get("/{trip_id}", response_model=schemas.TripOut)

@@ -36,4 +36,4 @@ def login(credentials: schemas.UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     token = create_access_token({"user_id": user.id})
-    return schemas.LoginOut(user_id=user.id, token=token)
+    return schemas.LoginOut(user_id=user.id, name=user.name, email=user.email, token=token)
