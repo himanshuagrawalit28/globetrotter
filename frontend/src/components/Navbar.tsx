@@ -1,37 +1,54 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Compass, LogOut } from "lucide-react";
+import { Compass, LogOut, Menu } from "lucide-react";
+import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+
+const NAV_LINKS = [
+  { to: "/dashboard", label: "Dashboard" },
+  { to: "/trips", label: "My Trips" },
+  { to: "/itinerary-builder", label: "Builder" },
+  { to: "/itinerary", label: "Itinerary" },
+  { to: "/cities", label: "Cities & Budget" },
+  { to: "/activities", label: "Activities" },
+] as const;
 
 export function Navbar() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const linkClass =
+    "rounded-full px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-secondary hover:text-foreground";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-        <Link to="/dashboard" className="flex items-center gap-2">
+      <nav className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-5">
+        <Link to="/dashboard" className="flex shrink-0 items-center gap-2">
           <span className="gradient-sunset flex size-9 items-center justify-center rounded-xl">
             <Compass className="size-5 text-primary-foreground" />
           </span>
           <span className="font-display text-lg font-bold">GlobeTrotter</span>
         </Link>
 
-        <div className="flex items-center gap-3">
-          <Link
-            to="/trips"
-            className="hidden text-sm font-semibold text-muted-foreground transition hover:text-foreground sm:block"
-            activeProps={{ className: "text-foreground" }}
-          >
-            My Trips
-          </Link>
-          <Link
-            to="/activities"
-            className="hidden text-sm font-semibold text-muted-foreground transition hover:text-foreground sm:block"
-            activeProps={{ className: "text-foreground" }}
-          >
-            Activities
-          </Link>
-          <span className="hidden text-sm text-muted-foreground sm:block">
+        {/* Centered nav — links spread with space around */}
+        <div className="hidden flex-1 items-center justify-around lg:flex">
+          {NAV_LINKS.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className={linkClass}
+              activeProps={{
+                className:
+                  "rounded-full bg-secondary px-3 py-2 text-sm font-semibold text-foreground",
+              }}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="ml-auto flex shrink-0 items-center gap-3 lg:ml-0">
+          <span className="hidden text-sm text-muted-foreground xl:block">
             {user ? `Hi, ${user.name}` : "Guest explorer"}
           </span>
           <button
@@ -42,10 +59,38 @@ export function Navbar() {
             className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-semibold transition hover:bg-secondary"
           >
             <LogOut className="size-4" />
-            Log out
+            <span className="hidden sm:inline">Log out</span>
+          </button>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle navigation"
+            className="rounded-full border border-border p-2 lg:hidden"
+          >
+            <Menu className="size-4" />
           </button>
         </div>
       </nav>
+
+      {open ? (
+        <div className="border-t border-border bg-background px-5 py-3 lg:hidden">
+          <div className="flex flex-wrap justify-around gap-2">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                onClick={() => setOpen(false)}
+                className={linkClass}
+                activeProps={{
+                  className:
+                    "rounded-full bg-secondary px-3 py-2 text-sm font-semibold text-foreground",
+                }}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }
