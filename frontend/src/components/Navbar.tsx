@@ -17,6 +17,20 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center gap-3">
+          <Link
+            to="/trips"
+            className="hidden text-sm font-semibold text-muted-foreground transition hover:text-foreground sm:block"
+            activeProps={{ className: "text-foreground" }}
+          >
+            My Trips
+          </Link>
+          <Link
+            to="/activities"
+            className="hidden text-sm font-semibold text-muted-foreground transition hover:text-foreground sm:block"
+            activeProps={{ className: "text-foreground" }}
+          >
+            Activities
+          </Link>
           <span className="hidden text-sm text-muted-foreground sm:block">
             {user ? `Hi, ${user.name}` : "Guest explorer"}
           </span>
