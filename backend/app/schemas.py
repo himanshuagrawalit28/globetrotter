@@ -24,6 +24,8 @@ class UserOut(BaseModel):
 
 class LoginOut(BaseModel):
     user_id: int
+    name: str
+    email: str
     token: str
 
 

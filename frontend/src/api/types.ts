@@ -9,6 +9,8 @@ export interface SignupResponse {
 
 export interface LoginResponse {
   user_id: number;
+  email: string;
+  name: string;
   token: string;
 }
 

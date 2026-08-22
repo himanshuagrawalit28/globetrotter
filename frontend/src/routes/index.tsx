@@ -59,7 +59,7 @@ function LoginPage() {
         signIn(data.token, {
           user_id: data.user_id,
           email,
-          name: email.split("@")[0] ?? "Traveller",
+          name: data.name,
         });
       }
       toast.success("Welcome back, the road is calling");
