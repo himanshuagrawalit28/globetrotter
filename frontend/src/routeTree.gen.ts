@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ActivitiesRouteImport } from './routes/activities'
+import { Route as CitiesRouteImport } from './routes/cities'
 import { Route as CreateTripRouteImport } from './routes/create-trip'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ItineraryRouteImport } from './routes/itinerary'
+import { Route as ItineraryBuilderRouteImport } from './routes/itinerary-builder'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as TripsRouteImport } from './routes/trips'
 
@@ -26,6 +29,11 @@ const ActivitiesRoute = ActivitiesRouteImport.update({
   path: '/activities',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CitiesRoute = CitiesRouteImport.update({
+  id: '/cities',
+  path: '/cities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreateTripRoute = CreateTripRouteImport.update({
   id: '/create-trip',
   path: '/create-trip',
@@ -34,6 +42,16 @@ const CreateTripRoute = CreateTripRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ItineraryRoute = ItineraryRouteImport.update({
+  id: '/itinerary',
+  path: '/itinerary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ItineraryBuilderRoute = ItineraryBuilderRouteImport.update({
+  id: '/itinerary-builder',
+  path: '/itinerary-builder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -50,16 +68,22 @@ const TripsRoute = TripsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/activities': typeof ActivitiesRoute
+  '/cities': typeof CitiesRoute
   '/create-trip': typeof CreateTripRoute
   '/dashboard': typeof DashboardRoute
+  '/itinerary': typeof ItineraryRoute
+  '/itinerary-builder': typeof ItineraryBuilderRoute
   '/signup': typeof SignupRoute
   '/trips': typeof TripsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/activities': typeof ActivitiesRoute
+  '/cities': typeof CitiesRoute
   '/create-trip': typeof CreateTripRoute
   '/dashboard': typeof DashboardRoute
+  '/itinerary': typeof ItineraryRoute
+  '/itinerary-builder': typeof ItineraryBuilderRoute
   '/signup': typeof SignupRoute
   '/trips': typeof TripsRoute
 }
@@ -67,23 +91,46 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/activities': typeof ActivitiesRoute
+  '/cities': typeof CitiesRoute
   '/create-trip': typeof CreateTripRoute
   '/dashboard': typeof DashboardRoute
+  '/itinerary': typeof ItineraryRoute
+  '/itinerary-builder': typeof ItineraryBuilderRoute
   '/signup': typeof SignupRoute
   '/trips': typeof TripsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/activities' | '/create-trip' | '/dashboard' | '/signup' | '/trips'
+    | '/'
+    | '/activities'
+    | '/cities'
+    | '/create-trip'
+    | '/dashboard'
+    | '/itinerary'
+    | '/itinerary-builder'
+    | '/signup'
+    | '/trips'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/activities' | '/create-trip' | '/dashboard' | '/signup' | '/trips'
+  to:
+    | '/'
+    | '/activities'
+    | '/cities'
+    | '/create-trip'
+    | '/dashboard'
+    | '/itinerary'
+    | '/itinerary-builder'
+    | '/signup'
+    | '/trips'
   id:
     | '__root__'
     | '/'
     | '/activities'
+    | '/cities'
     | '/create-trip'
     | '/dashboard'
+    | '/itinerary'
+    | '/itinerary-builder'
     | '/signup'
     | '/trips'
   fileRoutesById: FileRoutesById
@@ -91,8 +138,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ActivitiesRoute: typeof ActivitiesRoute
+  CitiesRoute: typeof CitiesRoute
   CreateTripRoute: typeof CreateTripRoute
   DashboardRoute: typeof DashboardRoute
+  ItineraryRoute: typeof ItineraryRoute
+  ItineraryBuilderRoute: typeof ItineraryBuilderRoute
   SignupRoute: typeof SignupRoute
   TripsRoute: typeof TripsRoute
 }
@@ -113,6 +163,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ActivitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cities': {
+      id: '/cities'
+      path: '/cities'
+      fullPath: '/cities'
+      preLoaderRoute: typeof CitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/create-trip': {
       id: '/create-trip'
       path: '/create-trip'
@@ -125,6 +182,20 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/itinerary': {
+      id: '/itinerary'
+      path: '/itinerary'
+      fullPath: '/itinerary'
+      preLoaderRoute: typeof ItineraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/itinerary-builder': {
+      id: '/itinerary-builder'
+      path: '/itinerary-builder'
+      fullPath: '/itinerary-builder'
+      preLoaderRoute: typeof ItineraryBuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -147,8 +218,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ActivitiesRoute: ActivitiesRoute,
+  CitiesRoute: CitiesRoute,
   CreateTripRoute: CreateTripRoute,
   DashboardRoute: DashboardRoute,
+  ItineraryRoute: ItineraryRoute,
+  ItineraryBuilderRoute: ItineraryBuilderRoute,
   SignupRoute: SignupRoute,
   TripsRoute: TripsRoute,
 }
