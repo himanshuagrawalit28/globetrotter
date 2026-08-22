@@ -100,3 +100,13 @@ class ActivityOut(BaseModel):
 
 class StopActivityCreate(BaseModel):
     activity_id: int
+
+class StopWithActivities(BaseModel):
+    id: int
+    city_id: int
+    start_date: date
+    end_date: date
+    activity_ids: List[int]
+
+    class Config:
+        from_attributes = True

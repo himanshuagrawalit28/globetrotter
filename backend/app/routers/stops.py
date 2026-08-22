@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from typing import List
 
 from app.database import get_db
 from app import models, schemas
@@ -43,6 +44,22 @@ def add_stop(
     db.refresh(new_stop)
     return new_stop
 
+@router.get("", response_model=List[schemas.StopWithActivities])
+def list_stops(
+    trip_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    _get_owned_trip(trip_id, db, current_user)
+    stops = db.query(models.Stop).filter(models.Stop.trip_id == trip_id).all()
+    result = []
+    for s in stops:
+        activity_ids = [link.activity_id for link in s.activities]
+        result.append(schemas.StopWithActivities(
+            id=s.id, city_id=s.city_id, start_date=s.start_date,
+            end_date=s.end_date, activity_ids=activity_ids
+        ))
+    return result
 
 @router.delete("/{stop_id}", status_code=status.HTTP_204_NO_CONTENT)
 def remove_stop(
