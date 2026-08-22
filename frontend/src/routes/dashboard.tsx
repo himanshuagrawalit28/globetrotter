@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { ArrowRight, Wallet } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -36,6 +36,7 @@ export const Route = createFileRoute("/dashboard")({
 
 function DashboardPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [trips, setTrips] = useState<TripListItem[]>([]);
 
   useEffect(() => {
@@ -73,12 +74,10 @@ function DashboardPage() {
 
           <div className="flex flex-wrap items-center gap-4">
             <DriveToCreateButton
-              onDone={() =>
-                toast.success("Create Trip screen plugs in here next")
-              }
+              onDone={() => void navigate({ to: "/create-trip" })}
             />
             <button
-              onClick={() => toast("My Trips screen coming up next")}
+              onClick={() => void navigate({ to: "/trips" })}
               className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-semibold transition hover:bg-secondary"
             >
               View all trips
